@@ -2,8 +2,11 @@
 
 // Imports
 import preprocess from 'svelte-preprocess';
+import houdini from 'houdini-preprocess';
+
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 // Adapters
 import vercelAdapter from '@sveltejs/adapter-vercel';
@@ -17,7 +20,15 @@ const options = JSON.stringify(process.env.OPTIONS || '{}');
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: [preprocess()],
+	preprocess: [
+		preprocess({
+			// scss: {
+			// 	prependData: `@import './src/style/global.scss';`
+			// },
+			typescript: true
+		}),
+		houdini()
+	],
 
 	kit: {
 		adapter: vercelAdapter(options),
@@ -31,11 +42,17 @@ const config = {
 					$data: resolve(__dirname, './src/lib/data'),
 					$core: resolve(__dirname, './src/lib/core'),
 					$utils: resolve(__dirname, './src/lib/utils'),
-					$env: resolve(__dirname, './src/env')
+					$env: resolve(__dirname, './src/env'),
+					$houdini: path.resolve('.', '$houdini')
 				}
 			},
 			envPrefix: ['VITE_', 'SVELTEKIT_STARTER_'],
-			plugins: []
+			plugins: [],
+			server: {
+				fs: {
+					allow: ['.']
+				}
+			}
 		})
 	}
 };
