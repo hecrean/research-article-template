@@ -20,6 +20,9 @@
 </div>
 
 <style lang="scss">
+	@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@1,200&display=swap');
+	$font-family: 'Spectral', serif;
+
 	:global(:root) {
 		html,
 		body,
@@ -150,7 +153,7 @@
 		overscroll-behavior: none;
 	}
 	:global(body) {
-		font-family: Charter, Georgia, serif;
+		font-family: $font-family;
 		line-height: 1.4;
 		letter-spacing: 0;
 		background-color: #fff;

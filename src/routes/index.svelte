@@ -3,6 +3,7 @@
 
 <script lang="ts">
 	import Layout from '$layouts/Home.layout.svelte';
+	import Canvas from '$components/Canvas.svelte';
 	import { layoutState } from '$lib/stores/layout.store';
 </script>
 
@@ -12,9 +13,12 @@
 </svelte:head>
 
 <Layout leftSidebarOpen={$layoutState.sidebarOpen}>
-	<section slot="header" class="header-section" />
+	<section slot="header" class="header-section">
+		<!-- <canvas /> -->
+		<Canvas />
+	</section>
 
-	<article slot="main">
+	<article slot="main" class="main-section">
 		<section class="grid">
 			<h1 class:full-bleed={true}>Initial Heading</h1>
 			<p>
@@ -48,8 +52,6 @@
 			</dl>
 
 			<dialog />
-
-			<hr class:full-bleed={true} />
 
 			<p class:full-bleed={true}>
 				CLIP (<em>Contrastive Language–Image Pre-training</em>) builds on a large body of work on
@@ -169,6 +171,8 @@
 				<sup class="reference-ref"><a href="#rf16" id="rfref16">16</a></sup>
 			</p>
 
+			<hr class:full-bleed={true} />
+
 			<div class="footnotes">
 				<ol class="footnotes-list">
 					<li id="fn1" class="footnote-item">
@@ -232,18 +236,38 @@
 					</li>
 				</ol>
 			</div>
+
+			<hr class:full-bleed={true} />
+
+			<div class="references">
+				<ol class="references-list">
+					<li id="ref1" class="reference-item">
+						<p>
+							We decided to name our model using a portmanteau of the artist Salvador Dalí and
+							Pixar’s WALL·E. <a href="#ref1" class="reference-backref">↩︎</a>
+						</p>
+					</li>
+				</ol>
+			</div>
 		</section>
 	</article>
 
-	<div slot="footer">Footer</div>
+	<div slot="footer" />
 </Layout>
 
 <style lang="scss">
+	// -- variables ---
 	$h1-boxed-height: 6.3rem;
+	// colors:
+	$yves-klein-blue: hsl(223, 100%, 33%);
+	$yves-kelin-orange: rgb(245, 144, 52);
 
 	.header-section {
 		height: calc(100vh - $h1-boxed-height);
-		background: linear-gradient(lightpink, #3f87a6);
+		background: linear-gradient($yves-kelin-orange, $yves-klein-blue);
+	}
+
+	.main-section {
 	}
 
 	.grid {
@@ -296,6 +320,7 @@
 	section {
 	}
 	h1 {
+		border-top: 3px solid $yves-klein-blue;
 		margin: 0rem -2rem 0rem -2rem;
 		padding: 3.5rem 2rem 1.8rem 2rem;
 		position: sticky;
@@ -312,6 +337,31 @@
 	}
 
 	// Text Content
+	// -- selection highlighting
+	div,
+	blockquote,
+	cite,
+	figcaption,
+	p,
+	a,
+	abbr,
+	n,
+	dgn,
+	em,
+	i,
+	mark,
+	q,
+	s,
+	small,
+	strong,
+	sup,
+	sub {
+		&::selection {
+			background-color: $yves-klein-blue;
+			color: white;
+		}
+	}
+
 	blockquote {
 	}
 	// - describe a reference to a cited creative work
@@ -338,11 +388,13 @@
 		margin: 0rem 0rem 1.4rem 0rem;
 	}
 	hr {
-		border-top: 0.5px solid rgba(129, 123, 123, 0.5);
+		/* border-top: 0.5px solid rgba(129, 123, 123, 0.5); */
 		margin: 2rem 0rem 2rem 0rem;
 		padding: 0;
-		height: 0px;
+		border: 0;
+		height: 1px;
 		width: 100%;
+		background-color: rgba(240, 240, 240, 0.9);
 	}
 
 	// Inline text semantics
@@ -370,14 +422,12 @@
 	s {
 	}
 	small {
-		font-family: Helvetica, sans-serif;
 		font-size: 0.75rem;
 	}
 	strong {
 	}
 	sub,
 	sup {
-		font-family: Helvetica, sans-serif;
 		font-size: 0.75rem;
 		font-weight: unset;
 		letter-spacing: unset;
@@ -412,6 +462,16 @@
 			//another way of enforcing apsect ratio is the following trick:
 			padding-bottom: calc(100 / $aspect-ratio);
 		}
+	}
+
+	// Multimedia : svg, canvas, img, video
+
+	canvas {
+		width: 100%;
+		height: 100%;
+		border: 2px solid red;
+	}
+	#header-section-canvas {
 	}
 
 	// Demarcating edits
@@ -456,7 +516,6 @@
 		border: 0;
 		border-radius: 4px;
 		padding: 0;
-		font-family: ColfaxAI, Helvetica, sans-serif;
 		font-size: 0.6666666667rem;
 		letter-spacing: 0.05em;
 		font-weight: bold;
